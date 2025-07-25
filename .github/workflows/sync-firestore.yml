@@ -1,0 +1,44 @@
+# This is the GitHub Action workflow file.
+# Create a folder named ".github" in your codexia-best-practices repo.
+# Inside that, create another folder named "workflows".
+# Finally, create this file inside "workflows" with the name "sync-firestore.yml".
+
+name: Sync Best Practices to Firestore
+
+# This workflow runs on every push to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  seed-firestore:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository's code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js, which we need to run our script
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Step 3: Authenticate to Google Cloud using the service account key
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      # Step 4: Install the dependencies for our seeding script
+      - name: Install dependencies
+        run: npm install
+
+      # Step 5: Run the seeding script
+      # We pass the project ID as an environment variable to the script
+      - name: Run seed script
+        run: node seed.js
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
