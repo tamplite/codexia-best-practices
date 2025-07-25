@@ -1,0 +1,12 @@
+{
+  "name": "codexia-best-practices-seeder",
+  "version": "1.0.0",
+  "description": "Script to sync the best practices document to Firestore.",
+  "main": "seed.js",
+  "scripts": {
+    "start": "node seed.js"
+  },
+  "dependencies": {
+    "firebase": "^10.12.2"
+  }
+}
