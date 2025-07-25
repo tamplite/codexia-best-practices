@@ -1,11 +1,8 @@
-# This is the GitHub Action workflow file.
-# Create a folder named ".github" in your codexia-best-practices repo.
-# Inside that, create another folder named "workflows".
-# Finally, create this file inside "workflows" with the name "sync-firestore.yml".
+# This is the updated GitHub Action workflow file.
+# It should be located at .github/workflows/sync-firestore.yml in your 'codexia-best-practices' repo.
 
 name: Sync Best Practices to Firestore
 
-# This workflow runs on every push to the 'main' branch
 on:
   push:
     branches:
@@ -16,29 +13,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository's code
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js, which we need to run our script
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # Step 3: Authenticate to Google Cloud using the service account key
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: '${{ secrets.GCP_SA_KEY }}'
-
-      # Step 4: Install the dependencies for our seeding script
       - name: Install dependencies
         run: npm install
 
-      # Step 5: Run the seeding script
-      # We pass the project ID as an environment variable to the script
       - name: Run seed script
-        run: node seed.js
+        run: npm start
         env:
+          # These secrets need to be added to the codexia-best-practices repo settings
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
