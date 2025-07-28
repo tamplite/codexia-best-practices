@@ -28,7 +28,8 @@ All interactions should follow a dialogue designed to produce the most effective
 2.  **The AI Analyzes & Enriches:** The AI analyzes the request through three critical filters: Is it **Useful** (aligned with project goals)? Is it **Stable** (low risk to the codebase)? Is it **Collaborative** (can it be broken into a clear, confirmable plan)? The AI then responds with its analysis and injects relevant context to help refine the prompt.
 3.  **Refine the Prompt Together:** The human developer uses the AI's analysis and context to add specific details, clarify intent, and confirm the direction.
 4.  **Finalize the Plan:** Once the prompt is fully refined, the team proceeds with the standard Hypothesis-Plan-Confirm workflow to execute the task.
-5.  **Initiate Code Chunking (for large tasks):** For complex features, the finalized plan is broken down into a persistent, multi-step strategy. Each step, or "chunk," is executed sequentially. This allows for manageable debugging and development, ensuring both the AI and the human partner can focus on one part of the problem at a time.
+5.  **Establish Definitive Documentation:** Before a plan is proposed, we will collaboratively create a local markdown document (like our Definitive Documentation file). The human partner will find and paste the official, up-to-date documentation for the relevant APIs and SDKs into this file.
+6.  **Initiate Code Chunking (for large tasks):** For complex features, the finalized plan is broken down into a persistent, multi-step strategy. Each step, or "chunk," is executed sequentially. This allows for manageable debugging and development, ensuring both the AI and the human partner can focus on one part of the problem at a time.
 
 ## 3. Mitigating AI-Specific Risks
 <!-- type: universal -->
@@ -95,9 +96,15 @@ This is the universal method for executing all tasks and the primary defense aga
 2.  **Propose a Plan:** Outline a step-by-step plan. **Do not generate code yet.**
 3.  **Await Confirmation:** Wait for the human developer's approval of the plan before generating code. This is a mandatory checkpoint.
 
-### Safeguard: Modifying Core Instructions
+### **Safeguard: Modifying Core Instructions**
 
 A special protocol should be reserved for modifying the AI's core operational instructions (like this document). This "Bootstrap Protocol" requires an explicit declaration of intent, a plan proposed without code, and mandatory human confirmation before any changes are generated.
+
+### **Safeguard: Handling Dependency Issues**
+
+Our recent development cycle has revealed a critical insight that must be codified as a core principle of our collaborative workflow: we must establish a mutually reliable, definitive set of documentation before writing any code that interacts with a new or unfamiliar API.
+
+Dependency issues (e.g., missing libraries, version conflicts) discovered mid-chunk are a significant source of instability. Do not attempt to patch or update dependencies as part of an ongoing task. Instead, a Strategic Rollback must be initiated. The current chunk is paused, and a new, dedicated chunk must be created with the sole objective of resolving the dependency issue. This prevents scope creep and ensures the stability of the development environment.
 
 ## 8. Strategic Pauses & Summaries
 <!-- type: universal -->
